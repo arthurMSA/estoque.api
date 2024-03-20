@@ -12,4 +12,5 @@ model Product {
   name String
   price Float?
   amount Int
+  deletedAt DateTime?
 }

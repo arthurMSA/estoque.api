@@ -13,9 +13,11 @@ export class ProductsService {
   }
 
   findAll(searchProductDto: SearchProductDto) {
-    console.log(searchProductDto)
     return this.prisma.product.findMany({
-      where: { name: searchProductDto.name },
+      where: {
+        name: searchProductDto.name,
+        deletedAt: null,
+      },
     })
   }
 
@@ -27,6 +29,9 @@ export class ProductsService {
   }
 
   remove(id: string) {
-    return this.prisma.product.delete({ where: { id } })
+    return this.prisma.product.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    })
   }
 }
