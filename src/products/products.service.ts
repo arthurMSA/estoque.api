@@ -15,8 +15,14 @@ export class ProductsService {
   findAll(searchProductDto: SearchProductDto) {
     return this.prisma.product.findMany({
       where: {
-        name: searchProductDto.name,
+        name: {
+          contains: searchProductDto.name,
+          mode: 'insensitive',
+        },
         deletedAt: null,
+      },
+      orderBy: {
+        name: 'asc',
       },
     })
   }
