@@ -12,8 +12,10 @@ export class ProductsService {
     return this.prisma.product.create({ data: createProductDto })
   }
 
-  findAll(searchProductDto: SearchProductDto) {
-    return this.prisma.product.findMany({
+  async findAll(searchProductDto: SearchProductDto) {
+    const productPerPage = 5
+    const currentPage = searchProductDto.page
+    const products = await this.prisma.product.findMany({
       where: {
         name: {
           contains: searchProductDto.name,
@@ -24,7 +26,22 @@ export class ProductsService {
       orderBy: {
         name: 'asc',
       },
+      take: productPerPage,
+      skip: productPerPage * (currentPage - 1),
     })
+    const count = await this.prisma.product.count({
+      where: {
+        name: {
+          contains: searchProductDto.name,
+          mode: 'insensitive',
+        },
+        deletedAt: null,
+      },
+    })
+    return {
+      products,
+      count,
+    }
   }
 
   update(id: string, updateProductDto: UpdateProductDto) {
