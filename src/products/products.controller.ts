@@ -9,8 +9,8 @@ import {
   Query,
 } from '@nestjs/common'
 import { ProductsService } from './products.service'
-import { CreateProductDto } from './DTO/create-product.dto'
-import { UpdateProductDto } from './DTO/update-product.dto'
+import { CreateProductDto } from './dto/create-product.dto'
+import { UpdateProductDto } from './dto/update-product.dto'
 import { SearchProductDto } from './dto/search-product.dto'
 import { ApiTags } from '@nestjs/swagger'
 
